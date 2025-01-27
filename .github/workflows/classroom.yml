@@ -22,9 +22,19 @@ jobs:
         command: python3 ./CheckLab2.py
         timeout: 10
         max-score: 1
+    - name: Valid Email
+      id: valid-email
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Valid Email
+        setup-command: ''
+        command: grep "@myseneca.ca" laboutput.txt
+        timeout: 10
+        max-score: 2
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
         C_RESULTS: "${{steps.c.outputs.result}}"
+        VALID-EMAIL_RESULTS: "${{steps.valid-email.outputs.result}}"
       with:
-        runners: c
+        runners: c,valid-email
